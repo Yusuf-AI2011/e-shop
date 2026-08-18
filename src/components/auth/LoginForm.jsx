@@ -3,16 +3,34 @@ import { useState } from "react";
 import { MdLockPerson } from "react-icons/md";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import toast, { Toaster } from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
+import { GetToken } from "@/tanstack/mutations/mutations";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
-    
   const [authData, setAuthData] = useState({
-    username: "",
+    login: "",
     password: "",
   });
   const [eyeSlash, setEyeSlash] = useState(true);
-  
+  const router = useRouter();
+
+  const PostLogin = useMutation({
+    mutationFn: (authData) => GetToken(authData),
+    onSuccess: (success) => {
+      const token = success.data.accessToken;
+      toast.success("Welcome!");
+
+      setTimeout(() => {
+        router.push("/admin");
+      }, [1000]);
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Something went wrong!");
+    },
+  });
 
   function HandleInput(e) {
     setAuthData({
@@ -20,15 +38,14 @@ const LoginForm = () => {
       [e.target.name]: e.target.value,
     });
   }
-
   function GetStartedNow(e) {
     e.preventDefault();
-    console.log("Bosildi!");
+    PostLogin.mutate(authData);
   }
-
 
   return (
     <div className="w-[100%] h-[100vh] flex justify-center items-center bg-[#f2e3e3]">
+      <Toaster position="top-right" />
       <form className="w-[300px] p-[20px]  text-mist-800 border-2 border-[#a39f9f] rounded-[8px] shadow-[3px_3px_0_#a39f9f] flex justify-center items-center flex-col gap-[15px]">
         <span className="text-[30px] text-red-600">
           <MdLockPerson />
@@ -36,14 +53,14 @@ const LoginForm = () => {
         <p>Authorise to enter admin panel.</p>
         <div className="w-[100%] py-[10px] border-b-1 border-[#a39f9f]">
           <p>
-            Username <span className="text-yellow-600 font-bold">*</span>
+            email <span className="text-yellow-600 font-bold">*</span>
           </p>
           <input
             className="w-[100%] px-[5px] outline-0"
-            value={authData.username}
+            value={authData.login}
             onChange={HandleInput}
-            name="username"
-            placeholder="username"
+            name="login"
+            placeholder="login"
             type="text"
           />
         </div>
@@ -72,7 +89,7 @@ const LoginForm = () => {
           onClick={GetStartedNow}
           className="w-[100%] h-[35px] border-1 border-[#a39f9f] shadow-[3px_3px_0_#a39f9f] rounded-[8px]"
         >
-          Get started now!
+          {PostLogin.isLoading ? "Loading..." : "Get started now!"}
         </button>
       </form>
     </div>
