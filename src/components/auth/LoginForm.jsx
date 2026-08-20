@@ -13,13 +13,17 @@ const LoginForm = () => {
     login: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
   const [eyeSlash, setEyeSlash] = useState(true);
   const router = useRouter();
+
+  console.log(isLoading);
 
   const PostLogin = useMutation({
     mutationFn: (authData) => GetToken(authData),
     onSuccess: (success) => {
-      const token = success.data.accessToken;
+      setIsLoading(false);
+      // const token = success.data.accessToken;
       toast.success("Welcome!");
 
       setTimeout(() => {
@@ -40,6 +44,7 @@ const LoginForm = () => {
   }
   function GetStartedNow(e) {
     e.preventDefault();
+    setIsLoading(true);
     PostLogin.mutate(authData);
   }
 
@@ -89,7 +94,7 @@ const LoginForm = () => {
           onClick={GetStartedNow}
           className="w-[100%] h-[35px] border-1 border-[#a39f9f] shadow-[3px_3px_0_#a39f9f] rounded-[8px]"
         >
-          {PostLogin.isLoading ? "Loading..." : "Get started now!"}
+          {isLoading ? "Loading..." : "Get started now!"}
         </button>
       </form>
     </div>
