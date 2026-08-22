@@ -17,8 +17,6 @@ const LoginForm = () => {
   const [eyeSlash, setEyeSlash] = useState(true);
   const router = useRouter();
 
-  console.log(isLoading);
-
   const PostLogin = useMutation({
     mutationFn: (authData) => GetToken(authData),
     onSuccess: (success) => {
@@ -32,7 +30,8 @@ const LoginForm = () => {
     },
     onError: (error) => {
       console.log(error);
-      toast.error("Something went wrong!");
+      setIsLoading(false);
+      toast.error(error.message);
     },
   });
 
