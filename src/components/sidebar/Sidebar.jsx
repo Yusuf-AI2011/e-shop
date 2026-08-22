@@ -2,7 +2,8 @@
 import { loseToken } from "@/tanstack/mutations/mutations";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import React from "react";
+import { FiBox } from "react-icons/fi";
+import { PiChartPieSliceFill } from "react-icons/pi";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -18,13 +19,19 @@ const Sidebar = () => {
   }
   return (
     <div className="w-[100%] h-[100vh]">
-      <div className="relative w-[100%] h-[100vh] flex justify-start items-center flex-col gap-[150px]">
-        <h1 className="text-[30px] text-mist-300">E-Shop</h1>
+      <div className="relative w-[100%] h-[100vh] flex justify-start items-center flex-col gap-[150px] shadow-sm shadow-mist-400">
+        <h1 className="text-[30px] text-blue-400">CarShop</h1>
         <div className="w-[100%] flex justify-center items-center flex-col gap-[20px]">
-          <button className="w-[80%] h-[35px] rounded-[8px] border-mist-300 border-1 text-mist-300">
+          <button className="w-[80%] h-[35px] rounded-[8px] text-mist-300 flex justify-start items-center gap-[10px] text-[17px] font-light">
+            <span className="text-[20px]">
+              <FiBox />
+            </span>
             Products
           </button>
-          <button className="w-[80%] h-[35px] rounded-[8px] border-mist-300 border-1 text-mist-300">
+          <button className="w-[80%] h-[35px] rounded-[8px] text-mist-300 flex justify-start items-center gap-[10px] text-[17px] font-light">
+            <span className="text-[20px]">
+              <PiChartPieSliceFill />
+            </span>
             Categories
           </button>
         </div>

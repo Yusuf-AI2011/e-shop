@@ -1,8 +1,9 @@
 import axios from "axios";
+import api from "../../services/api";
 
-export const getProducts = async () => {
-  const response = axios.get(
-    `https://backend.magnateshop.uz/api/products?page=1&limit=10&search=toyota&categoryId=1&isActive=true&minPrice=200000000&maxPrice=600000000&inStock=true&sortBy=id&order=ASC`,
+export const getProducts = async ({ search }) => {
+  const response = api.get(
+    `products?page=1&&limit=10&inStock=true&sortBy=id&order=ASC&search=${search}`,
   );
   return response;
 };

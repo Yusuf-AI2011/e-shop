@@ -19,7 +19,7 @@ export async function POST(request) {
 
     const cookieStore = await cookies();
     cookieStore.set("token", token, {
-      httpOnly: true,
+      httpOnly: false,
       maxAge: 60 * 60 * 24 * 7,
       path: "/",
     });
